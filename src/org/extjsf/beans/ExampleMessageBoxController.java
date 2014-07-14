@@ -1,10 +1,22 @@
 package org.extjsf.beans;
 
+import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 import org.extjsf.ExtDictonary;
 import org.extjsf.ExtMethod;
 import org.extjsf.ExtViewController;
 
-public class ExampleMessageBoxController extends ExtViewController {
+@Named("KitchenSink.view.window.MessageBoxController")
+@SessionScoped
+public class ExampleMessageBoxController extends ExtViewController implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8890278532865191159L;
 
 	public ExampleMessageBoxController(){
 		this.addAlias("controller.window-messagebox")

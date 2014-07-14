@@ -12,6 +12,7 @@
 <h:body>
 	<ext:component value="#{ExampleBean.randomMethod('foo', ExampleBean2.otherMethod(9))}"/>
 	
+<!-- commented out the tag based mockup for testing 
 	<ext:Ext.app.ViewController name='KitchenSink.view.window.MessageBoxController' alias='controller.window-messagebox'>
 		<ext:dictonaryEntry type='jsInlineHandler' name='onConfirmClick'>
 			<ext:Ext.MessageBox.confirm title='Confirm' prompt='Are you sure you want to do that?'>
@@ -46,7 +47,7 @@
 			</ext:Ext.MessageBox.show>
 		</ext:dictonaryEntry>
 	</ext:Ext.app.ViewController>
-	
-	<ext:Ext.app.ViewController binding='KitchenSink.view.window.MessageBoxController'/>
+-->	
+	<ext:Ext.app.ViewController binding='#{KitchenSink.view.window.MessageBoxController.viewControllerUI}'/>
 </h:body>
 </html>
