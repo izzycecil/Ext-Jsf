@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h:form> 
+    	<p:growl id="growl" showDetail="true" sticky="true" />
+    	<p:panel header="Message Box Variations">
+    		<h:panelGrid columns="2" border="0">
+    			<p:button value="Confirm Dialog" actionListener="">
+    				<p:confirm header="Confirmation" message="Are you sure?"/>
+    			</p:button>
+    			<p:button value="Progress Dialog"/>
+    			<p:button value="Prompt Dialog"/>
+    			<p:button value="Wait Dialog"/>
+    			<p:button value="Mulit-line Prompt"/>
+    			<p:button value="Wait Dialog"/>
+    			<p:button value="Yes/No/Cancel Dialog"/>
+    			<p:button value="Custom Button Text"/>
+    		</h:panelGrid>
+    		<h:panelGrid columns="3">
+    			<p:outputLabel for="drop1" value="Choose Icon:"/>
+    			<p:selectOneMenu id="drop1">
+    				<f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+    			</p:selectOneMenu>
+    			<p:button value="Icon Dialog"/>
+    		</h:panelGrid>
+    	</p:panel>
+    </h:form>
+</h:body>
+</html>
