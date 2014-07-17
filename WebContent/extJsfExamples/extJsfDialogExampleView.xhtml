@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ext="http://extjsf.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<!--
+		Understand that when using Ext-JSF widgets the traditional JSF view means very little. It becomes a way of specifying an Ext view and controller pair.
+		This makes sense when you realize that the DOM used by the client is bing built by Ext.js and not by JSF
+	-->
+	<ext:specification view="KitchenSink.view.window.MessageBox" controller="KitchenSink.view.window.MessageBoxController">
+	
+		<!-- This section specifies the view -->
+		<ext:panel name="KitchenSink.view.window.MessageBox" xtype="message-box" controller="window-messagebox" width=400 bodypadding=15 title="Message Box Variations">
+			<ext:layout type="vbox" align="stretch">
+				<ext:container xtype="container" flex=1>
+					<ext:layout type="hbox" align="stretch">
+						<ext:container xtype="container" flex=1>
+							<ext:layout type="vbox" align="stretch">
+								<ext:button text="Confirm Dialog" handler="onConfirmClick"/>
+								<ext:button text="Prompt Dialog" handler="onPromptClick"/>
+								<ext:button text="Multi-line Prompt" handler="onMultiLinePromptClick"/>
+								<ext:button text="Yes/No/Cancel Dialog" handler="onYesNoCancelClick"/>
+							</ext:layout>
+						</ext:container>
+						<ext:container xtype="container" flex=1 margin="0 0 0 20">
+							<ext:layout type="vbox" align="stretch">
+								<ext:defaults margin="0 0 10 0">
+									<ext:button text="Progress Dialog" handler="onProgressClick"/>
+									<ext:button text="Wait Dialog" handler="onWaitClick"/>
+									<ext:button text="Alert Dialog" handler="onAlertClick"/>
+									<ext:button text="Custom Button Text" handler="onCustomButtonText"/>
+								</ext:defaults>
+							</ext:layout>
+						</ext:container>
+						<ext:container xtype="container" margin="30 0 0 0" layout="hbox">
+							<ext:comboBox xtype="combobox" fieldLabel="Choose Icon" reference="icon" forceSelection="true" editable="false" value="error" width=250>
+								<ext:comboItem name="error" value="Error"/>
+								<ext:comboItem name="info" value="Informational"/>
+								<ext:comboItem name="question" value="Question"/>
+								<ext:comboItem name="warning" value="Warning"/>
+							</ext:comboBox>
+							<!-- Notice that we can use JSF beans as a means of supplying view data. The itsm for the next combobox rather than being hard coded comes from a bean on the server -->
+							<ext:comboBox xtype="combobox" fieldLabel="Server Data" reference="server" forceSelection="true" editable="false" with=250 items="#{extJsfComboExampleViewData.items}"/>
+							<ext:button xtype="button" text="Icon Dialog" handler="onIconClick" margin="0 0 0 5"/>
+						</ext:container>
+					</ext:layout>
+				</ext:container>
+			</ext:layout>
+		</ext:panel>
+	
+		<!-- This section specifies the controller -->
+		<ext:viewController name="KitchenSink.view.window.MessageBoxController" alias="controller.window-messagebox">
+			<!-- This handler does only client side behavors -->
+			<ext:handler name="onConfirmClick">
+				<!-- an ext:clientCode tag is where you put javascript you want to run on the client -->
+				<ext:clientCode>
+					Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', this.showResult, this);
+				</ext:clientCode>
+			</ext:handler>
+			
+			<ext:handler name="onPromptClick" action="#{extJsfControllerBean.prompt('textValue')">
+				<ext:clientCode>
+					var textValue = this.lookupReference('icon').getValue();
+					function localCallback(btn, text){
+						textValue = text;
+					}
+					Ext.MessageBox.prompt('Name', 'Please enter your name:', localCallback, this);	
+				</ext:clientCode>
+			</ext:handler>
+		</ext:viewController>
+	
+	</ext:specification>
+</h:body>
+</html>
