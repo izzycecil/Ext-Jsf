@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h:form> 
+    	<p:growl id="growl" showDetail="true" sticky="true" />
+    	<p:panel header="Message Box Variations">
+    		<h:panelGrid columns="2" border="0">
+    			<p:commandButton value="Confirm Dialog" onclick="PF('confirmDialog').show();"/>
+    			<p:commandButton value="Progress Dialog" onclick="PF('progressDialog').show();PF('pbProgress').start();"/>
+    			<p:commandButton value="Prompt Dialog" onclick="PF('promptDialog').show();"/>
+    			<p:commandButton value="Wait Dialog" onclick="PF('waitDialog').show();PF('pbWait').start();"/>
+    			<p:commandButton value="Mulit-line Prompt" onclick="PF('multiDialog').show();"/>
+    			<p:commandButton value="Alert Dialog" onclick="PF('alertDialog').show();"/>
+    			<p:commandButton value="Yes/No/Cancel Dialog" onclick="PF('yesNoCancelDialog').show();"/>
+    			<p:commandButton value="Custom Button Text" onclick="PF('customDialog').show();"/>
+    		</h:panelGrid>
+    		<h:panelGrid columns="3">
+    			<p:outputLabel for="drop1" value="Choose Icon:"/>
+    			<p:selectOneMenu id="drop1" value="#{SelectBean.value}">
+    				<f:selectItem itemLabel="Error" itemValue="error"/>
+    				<f:selectItem itemLabel="Info" itemValue="info"/>
+    				<f:selectItem itemLabel="Fatal" itemValue="fatal"/>
+    				<f:selectItem itemLabel="Warning" itemValue="warning"/>
+    			</p:selectOneMenu>
+    			<p:commandButton value="Icon Dialog" update="growl" action="#{jsfExampleDialogController.icon}"/>
+    		</h:panelGrid>
+    	</p:panel>
+    	
+    	<p:dialog id="confirmDialog" header="Confirm" widgetVar="confirmDialog">
+    		<p:outputLabel value="Are you sure you want to do that?"/>
+    		<h:panelGrid columns="2" border="0">
+    			<p:commandButton value="Yes" action="#{jsfExampleDialogController.confirm('yes')}" update="confirmDialog growl" onclick="PF('confirmDialog').hide();"/>
+    			<p:commandButton value="No" action="#{jsfExampleDialogController.confirm('no')}" update="confirmDialog growl" onclick="PF('confirmDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="promptDialog" header="Name" widgetVar="promptDialog">
+    		<h:panelGrid columns="2" border="0">
+    			<p:outputLabel value="Please enter your name: "/>
+    			<h:inputText value="#{PromptBean.text}" />
+    		</h:panelGrid>
+    		<h:panelGrid columns="2" border="0">
+    			<p:commandButton value="ok" action="#{jsfExampleDialogController.prompt('ok')}" update="promptDialog growl" onclick="PF('promptDialog').hide();"/>
+    			<p:commandButton value="Cancel" action="#{jsfExampleDialogController.prompt('cancel')}" update="promptDialog growl" onclick="PF('promptDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="progressDialog" resizable="false" closable="false" modal="true" header="Loading" widgetVar="progressDialog">
+    		<h:panelGrid columns="1" border="0">
+   				<p:outputLabel value="Loading Items..."/>
+   				<p:progressBar widgetVar="pbProgress" ajax="true" value="#{ProgressBar.progress}" labelTemplate="{value}%" styleClass="animated" global="false">
+   					<p:ajax event="complete" listener="#{ProgressBar.onComplete('items')}" oncomplete="PF('progressDialog').hide();" update="progressDialog growl"/>
+   				</p:progressBar>
+   			</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="multiDialog" header="Address" widgetVar="multiDialog">
+    		<h:panelGrid columns="1" border="0">
+    			<p:outputLabel value="Please enter your address:"/>
+    			<p:inputTextarea rows="6" cols="30" value="#{MultiBean.text}"/>
+    		</h:panelGrid>
+    		<h:panelGrid columns="2" border="0">
+    			<p:commandButton value="ok" action="#{jsfExampleDialogController.multi('ok')}" update="multiDialog growl" onclick="PF('multiDialog').hide();"/>
+    			<p:commandButton value="cancel" action="#{jsfExampleDialogController.multi('cancel')}" update="multiDialog growl" onclick="PF('multiDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="alertDialog" header="Status" resizable="false" modal="true" closable="false" widgetVar="alertDialog">
+    		<h:panelGrid columns="1" border="0">
+    			<p:outputLabel value="Changes saved successfully."/>
+    			<p:commandButton value="ok" action="#{jsfExampleDialogController.confirm('ok')}" update="alertDialog growl" onclick="PF('alertDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="waitDialog" resizable="false" modal="true" showHeader="false" widgetVar="waitDialog">
+    		<h:panelGrid columns="1" border="0">
+    			<p:outputLabel value="Saving your data please wait..."/>
+    			<p:progressBar interval="300" widgetVar="pbWait" ajax="true" value="#{ProgressBar.wait}" styleClass="animated" global="false">
+   					<p:ajax event="complete" listener="#{ProgressBar.onComplete('data')}" oncomplete="PF('waitDialog').hide();" update="waitDialog growl"/>
+   				</p:progressBar>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="yesNoCancelDialog" resizable="false" modal="true" widgetVar="yesNoCancelDialog">
+    		<p:outputLabel value="You are closing a tab that has unsaved changes. Would you like to save your changes?"/>
+    		<h:panelGrid columns="3" border="0">
+    			<p:commandButton value="Yes" action="#{jsfExampleDialogController.confirm('yes')}" update="yesNoCancelDialog growl" onclick="PF('yesNoCancelDialog').hide();"/>
+    			<p:commandButton value="No" action="#{jsfExampleDialogController.confirm('no')}" update="yesNoCancelDialog growl" onclick="PF('yesNoCancelDialog').hide();"/>
+    			<p:commandButton value="Cancel" action="#{jsfExampleDialogController.confirm('cancel')}" update="yesNoCancelDialog growl" onclick="PF('yesNoCancelDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    	
+    	<p:dialog id="customDialog" resizable="false" header="What, really?" widgetVar="customDialog">
+    		<p:outputLabel value="Are you sure?"/>
+    		<h:panelGrid columns="2" border="0">
+    			<p:commandButton value="Definitely!" action="#{jsfExampleDialogController.confirm('yes')}" update="yesNoCancelDialog growl" onclick="PF('customDialog').hide();"/>
+    			<p:commandButton value="No chance!" action="#{jsfExampleDialogController.confirm('no')}" update="yesNoCancelDialog growl" onclick="PF('customDialog').hide();"/>
+    		</h:panelGrid>
+    	</p:dialog>
+    </h:form>
+</h:body>
+</html>
