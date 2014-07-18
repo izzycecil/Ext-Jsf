@@ -67,7 +67,7 @@
 			
 			<ext:handler name="onPromptClick" action="#{extJsfControllerBean.prompt('textValue')">
 				<ext:clientCode>
-					var textValue = this.lookupReference('icon').getValue();
+					var textValue = "";
 					function localCallback(btn, text){
 						textValue = text;
 					}
